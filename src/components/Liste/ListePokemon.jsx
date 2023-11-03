@@ -15,7 +15,7 @@ function ListePokemon() {
   const pokemonCards = [];
   for (let i = 0; i < pokemonsParPage; i++) {
     const pokemonURL = `https://pokeapi.co/api/v2/pokemon-form/${offset + i + 1}`;
-    pokemonCards.push(<CartePokemon key={i} pokemonURL={pokemonURL} updatePokedex={updatePokedex} />);
+    pokemonCards.push(<CartePokemon key={i} pokemonURL={pokemonURL} />);
   }
 
   // Fonction pour aller à la page suivante

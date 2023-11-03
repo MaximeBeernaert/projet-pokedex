@@ -56,7 +56,7 @@ export default function CartePokemon({ pokemonURL }) {
   };
 
   return (
-    <div className='carte-pokemon'>
+    <div className={`carte-pokemon ${isInPokedex ? ("isInPokedex") : ""}`}>
       {pokemon && (
         <>
           <div className='image-pokemon-div'>

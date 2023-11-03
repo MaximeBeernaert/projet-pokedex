@@ -22,7 +22,6 @@ export default function Recherche() {
     const [pokemonList, setPokemonList] = useState(null);
     const [pokemon, setPokemon] = useState(null);
     const [listeRecherche, setListeRecherche] = useState([]);
-    const [clic, setClic] = useState("");
 
     useEffect(() => {
       // Définition de la fonction asynchrone pour le call API
@@ -38,10 +37,12 @@ export default function Recherche() {
         e.preventDefault();
     }
 
+    const setSearchBar = (pokemon) => {
+        let elem = document.getElementById("outlined-basic");
+        elem.value = pokemon.name;
+        setPokemon(pokemon.url);
+    }
     const searchPokemon = (e) => {
-        if(clic != ""){
-            e.target.value = clic;
-        }
 
         let trouve = false;
         let tempTrouve = false;
@@ -50,14 +51,13 @@ export default function Recherche() {
             // permet la liste des pokémons correspondant à la recherche
             if(pokemon.name.slice(0, search.length) === search && search !== "" && listeRecherche.length<5){
                 // listeRecherche.push(pokemon.name);
-                listeRecherche.push(<ListItemButton onClick={ e => setClic(pokemon.name)}> <ListItemIcon> <Image url={pokemon.url}/> </ListItemIcon> <ListItemText primary={pokemon.name} /> </ListItemButton>)
+                listeRecherche.push(<ListItemButton onClick={ e => setSearchBar(pokemon)}> <ListItemIcon> <Image url={pokemon.url}/> </ListItemIcon> <ListItemText primary={pokemon.name} /> </ListItemButton>)
                 setListeRecherche(listeRecherche);
                 // permet de trouver le pokémon correspondant à la recherche
                 if(tempTrouve != true){
                     setPokemon(pokemon.url);
                     tempTrouve = true;
                 }
-                
             }
             // permet de vider la liste des pokémons correspondant à la recherche
             if(search === ""){

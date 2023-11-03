@@ -4,11 +4,13 @@ import CartePokemon from '../Autre/Carte/CartePokemon';
 
 export default function AffichagePokedex() {
 
-  const updatePokedex = (newPokedex) => {
-    setPokedex(newPokedex);
-    localStorage.setItem('pokedex', JSON.stringify(newPokedex));
-  }
-  
+  //Lors de l'actualisation du local storage, on actualise les pokemons du pokedex
+  window.addEventListener("storage", () => {
+    const pokedex = JSON.parse(localStorage.getItem('pokedex'))
+    setPokedex(pokedex)
+  })
+
+
   //Récupération du local storage 'pokedex'
   const [pokedex, setPokedex] = useState([])
   useEffect(() => {
