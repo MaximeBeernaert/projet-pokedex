@@ -1,45 +1,57 @@
 import React, { useEffect, useState } from 'react';
-import Type from './Type'
-
+import Type from './Type';
 import Button from '@mui/material/Button';
 
 export default function CartePokemon({ pokemonURL }) {
-
   const [pokemon, setPokemon] = useState(null);
 
+  // Possible d'ajouter un état pour gérer le pokedex
+  // const [pokedexItems, setPokedexItems] = useState([]);
+
   useEffect(() => {
-    // Définition de la fonction asynchrone pour le call API
     const fetchPokemonData = async () => {
+      try {
         const response = await fetch(pokemonURL);
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
         const data = await response.json();
         setPokemon(data);
+      } catch (error) {
+        console.error('Erreur lors de la récupération des données du Pokémon:', error);
       }
-    fetchPokemonData();
+    };
+
+    if (pokemonURL) {
+      fetchPokemonData();
+    }
   }, [pokemonURL]);
 
-
-  
   const addToPokedex = () => {
-    // Récupérez le pokedex du local storage
     let pokedex = JSON.parse(localStorage.getItem("pokedex")) || [];
-
     pokedex.push(pokemon.id);
-
-    // Sauvegarde du pokedex dans le local storage
     localStorage.setItem("pokedex", JSON.stringify(pokedex));
+    setPokedexItems(pokedex);
+  };
 
-    console.log(localStorage);
-    localStorage.clear(); //DEV => REMOVE AFTER
-  }
+  const removeFromPokedex = () => {
+    let pokedex = JSON.parse(localStorage.getItem("pokedex")) || [];
+    pokedex = pokedex.filter(id => id !== pokemon.id);
+    localStorage.setItem("pokedex", JSON.stringify(pokedex));
+    setPokedexItems(pokedex);
+  };
 
+  const isInPokedex = (pokemonId) => {
+    const pokedex = JSON.parse(localStorage.getItem("pokedex")) || [];
+    return pokedex.includes(pokemonId);
+  };
 
   return (
-    // corps de la carte
     <div className='carte-pokemon'>
-        { pokemon ? 
-          <>
+      {pokemon && (
+        <>
           <div className='image-pokemon-div'>
-            <img src={'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + pokemon.id + '.png'} alt="" className='image-pokemon'/>
+            <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`} alt={pokemon.name} className='image-pokemon' />
           </div>
 
           <div className='nom-pokemon'>
@@ -50,13 +62,15 @@ export default function CartePokemon({ pokemonURL }) {
             <p>{pokemon.id}</p>
           </div>
 
-          <Type type={pokemon.types}/>
+          <Type type={pokemon.types} />
 
-          <Button variant="outlined" onClick={addToPokedex}>Ajouter</Button>
-          </>
-          :
-          <></>
-        }
+          {isInPokedex(pokemon.id) ? (
+            <Button variant="outlined" onClick={removeFromPokedex}>Retirer</Button>
+          ) : (
+            <Button variant="outlined" onClick={addToPokedex}>Ajouter</Button>
+          )}
+        </>
+      )}
     </div>
-  )
+  );
 }

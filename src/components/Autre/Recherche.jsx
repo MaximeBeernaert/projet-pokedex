@@ -20,29 +20,34 @@ export default function Recherche() {
             setPokemonList(data);
           }
         fetchPokemonData();
-      }, [pokemonList]);    
-      let trouve = false;
+      }, [pokemonList]);
 
     const preventDefault = (e) => {
         e.preventDefault();
     }
+    
+    // let listeRecherche = [];
 
     const searchPokemon = (e) => {
-        console.log(e);
         let trouve = false;
-        // if(search == ""){
-        //     setPokemon();
-        // }
+        const listeRecherche = [];
+
         pokemonList.results.map((pokemon) => {
+            // permet la liste des pokémons correspondant à la recherche
+            if(pokemon.name.slice(0, search.length) === search){
+                console.log(pokemon.name);
+                listeRecherche.push(<p>{pokemon.name}</p>);
+            }
+
+            // permet de trouver le pokémon correspondant à la recherche
             if(pokemon.name === search){
                 setPokemon(pokemon.url);
-                console.log('trouvé');
                 trouve = true;
             }else if(!trouve){
                 setPokemon("");
-                console.log('pas trouvé');
             }
         });
+        return listeRecherche;
     }
 
   return (
@@ -55,9 +60,9 @@ export default function Recherche() {
             </Box>
         </div>
 
-        {/* bouton rechercher */}
-        <div className='recherche-bouton'>
-
+        {/* listage des options de recherche */}
+        <div className='recherche-liste'>
+            {listeRecherche}
         </div>
 
         {/* carte du pokémon recherché */}
