@@ -21,7 +21,6 @@ function ListePokemon() {
   // Fonction pour aller à la page suivante
   const goToNextPage = () => {
     setPage(page + 1);
-    console.log(page);
   };
 
   // Fonction pour revenir à la page précédente
