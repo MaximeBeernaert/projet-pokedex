@@ -4,12 +4,13 @@ import Button from '@mui/material/Button';
 
 export default function CartePokemon({ pokemonURL }) {
   const [pokemon, setPokemon] = useState(null);
+  const [isInPokedex, setIsInPokedex] = useState(false);
 
-  // Possible d'ajouter un état pour gérer le pokedex
-  // const [pokedexItems, setPokedexItems] = useState([]);
-
+  // Récupération des données du Pokémon
   useEffect(() => {
     const fetchPokemonData = async () => {
+      if (!pokemonURL) return;
+
       try {
         const response = await fetch(pokemonURL);
         if (!response.ok) {
@@ -17,33 +18,41 @@ export default function CartePokemon({ pokemonURL }) {
         }
         const data = await response.json();
         setPokemon(data);
+        setIsInPokedex(checkIsInPokedex(data.id)); // Check si le Pokémon est dans le pokedex au chargement du composant
       } catch (error) {
         console.error('Erreur lors de la récupération des données du Pokémon:', error);
       }
     };
 
-    if (pokemonURL) {
-      fetchPokemonData();
-    }
+    fetchPokemonData();
   }, [pokemonURL]);
 
-  const addToPokedex = () => {
-    let pokedex = JSON.parse(localStorage.getItem("pokedex")) || [];
-    pokedex.push(pokemon.id);
-    localStorage.setItem("pokedex", JSON.stringify(pokedex));
-    setPokedexItems(pokedex);
+  // Vérifie si le Pokémon est dans le pokedex
+  const checkIsInPokedex = (pokemonID) => {
+    const pokedex = JSON.parse(localStorage.getItem('pokedex')) || [];
+    return pokedex.includes(pokemonID);
   };
 
-  const removeFromPokedex = () => {
-    let pokedex = JSON.parse(localStorage.getItem("pokedex")) || [];
-    pokedex = pokedex.filter(id => id !== pokemon.id);
-    localStorage.setItem("pokedex", JSON.stringify(pokedex));
-    setPokedexItems(pokedex);
+  // Ajoute un Pokémon au pokedex
+  const addToPokedex = (pokemonID) => {
+    const pokedex = JSON.parse(localStorage.getItem('pokedex')) || [];
+    if (!pokedex.includes(pokemonID)) {
+      pokedex.push(pokemonID);
+      localStorage.setItem('pokedex', JSON.stringify(pokedex));
+      setIsInPokedex(true);
+
+      console.log(localStorage);
+    }
   };
 
-  const isInPokedex = (pokemonId) => {
-    const pokedex = JSON.parse(localStorage.getItem("pokedex")) || [];
-    return pokedex.includes(pokemonId);
+  // Retire un Pokémon du pokedex
+  const removeFromPokedex = (pokemonID) => {
+    const pokedex = JSON.parse(localStorage.getItem('pokedex')) || [];
+    const newPokedex = pokedex.filter(id => id !== pokemonID);
+    localStorage.setItem('pokedex', JSON.stringify(newPokedex));
+    setIsInPokedex(false);
+
+    console.log(localStorage);
   };
 
   return (
@@ -64,10 +73,10 @@ export default function CartePokemon({ pokemonURL }) {
 
           <Type type={pokemon.types} />
 
-          {isInPokedex(pokemon.id) ? (
-            <Button variant="outlined" onClick={removeFromPokedex}>Retirer</Button>
+          {isInPokedex ? (
+            <Button variant="outlined" onClick={() => removeFromPokedex(pokemon.id)}>Retirer</Button>
           ) : (
-            <Button variant="outlined" onClick={addToPokedex}>Ajouter</Button>
+            <Button variant="outlined" onClick={() => addToPokedex(pokemon.id)}>Ajouter</Button>
           )}
         </>
       )}
