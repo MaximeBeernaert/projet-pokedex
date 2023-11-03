@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Type from './Type';
+
 import Button from '@mui/material/Button';
 
 export default function CartePokemon({ pokemonURL }) {
@@ -55,6 +56,11 @@ export default function CartePokemon({ pokemonURL }) {
     console.log(localStorage);
   };
 
+  const majuscule = () =>{
+    let nom = pokemon.name;
+    return nom.charAt(0).toUpperCase() + nom.slice(1);
+  }
+
   return (
     <div className={`carte-pokemon ${isInPokedex ? ("isInPokedex") : ""}`}>
       {pokemon && (
@@ -64,19 +70,19 @@ export default function CartePokemon({ pokemonURL }) {
           </div>
 
           <div className='nom-pokemon'>
-            <h2>{pokemon.name}</h2> 
+            <h2>{majuscule()}</h2> 
           </div>
 
           <div className='numero-pokemon'>
-            <p>{pokemon.id}</p>
+            ID : {pokemon.id}
           </div>
 
           <Type type={pokemon.types} />
 
           {isInPokedex ? (
-            <Button variant="outlined" onClick={() => removeFromPokedex(pokemon.id)}>Retirer</Button>
+            <Button variant="outlined" color="error" size="small" onClick={() => removeFromPokedex(pokemon.id)}>Retirer</Button>
           ) : (
-            <Button variant="outlined" onClick={() => addToPokedex(pokemon.id)}>Ajouter</Button>
+            <Button variant="outlined" color="success" size="small" onClick={() => addToPokedex(pokemon.id)}>Ajouter</Button>
           )}
         </>
       )}

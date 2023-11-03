@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
-import CartePokemon from './Carte/CartePokemon';
-import Image from './Image';
+import CartePokemon from '../Autre/Carte/CartePokemon';
+import Image from '../Autre/Image';
 
 import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
@@ -23,6 +23,7 @@ export default function Recherche() {
     const [pokemon, setPokemon] = useState(null);
     const [listeRecherche, setListeRecherche] = useState([]);
 
+
     useEffect(() => {
       // Définition de la fonction asynchrone pour le call API
       const fetchPokemonData = async () => {
@@ -42,6 +43,12 @@ export default function Recherche() {
         elem.value = pokemon.name;
         setPokemon(pokemon.url);
     }
+
+    const majuscule = (e) =>{
+        let nom = e.name;
+        return nom.charAt(0).toUpperCase() + nom.slice(1);
+      }
+
     const searchPokemon = (e) => {
 
         let trouve = false;
@@ -49,9 +56,12 @@ export default function Recherche() {
         setListeRecherche(listeRecherche.splice(0, listeRecherche.length));
         pokemonList.results.map((pokemon) => {
             // permet la liste des pokémons correspondant à la recherche
-            if(pokemon.name.slice(0, search.length) === search && search !== "" && listeRecherche.length<5){
+
+            let temp = search.toLowerCase();
+
+            if(pokemon.name.slice(0, temp.length) === temp && temp !== "" && listeRecherche.length<5){
                 // listeRecherche.push(pokemon.name);
-                listeRecherche.push(<ListItemButton onClick={ e => setSearchBar(pokemon)}> <ListItemIcon> <Image url={pokemon.url}/> </ListItemIcon> <ListItemText primary={pokemon.name} /> </ListItemButton>)
+                listeRecherche.push(<ListItemButton onClick={ e => setSearchBar(pokemon)}> <ListItemIcon> <Image url={pokemon.url}/> </ListItemIcon> <ListItemText primary={majuscule(pokemon)} /> </ListItemButton>)
                 setListeRecherche(listeRecherche);
                 // permet de trouver le pokémon correspondant à la recherche
                 if(tempTrouve != true){
@@ -63,7 +73,7 @@ export default function Recherche() {
             if(search === ""){
                 setListeRecherche([]);
             }
-            if(pokemon.name === search){
+            if(pokemon.name === temp){
                 setPokemon(pokemon.url);
                 trouve = true;
             }else if(!trouve && tempTrouve == false){
@@ -84,7 +94,7 @@ export default function Recherche() {
         {/* listage des options de recherche */}
         <div className='recherche-liste'>
          <List
-                    sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+                    sx={{ width: '100%', maxWidth: 300, bgcolor: 'background.paper' }}
                     component="nav"
                     aria-labelledby="nested-list-subheader"
                     subheader={

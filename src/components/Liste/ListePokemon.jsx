@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import CartePokemon from '../Autre/Carte/CartePokemon';
-import Recherche from '../Autre/Recherche';
+import Recherche from './Recherche';
 
 function ListePokemon() {
 
@@ -21,6 +21,7 @@ function ListePokemon() {
   // Fonction pour aller à la page suivante
   const goToNextPage = () => {
     setPage(page + 1);
+    console.log(page);
   };
 
   // Fonction pour revenir à la page précédente
@@ -33,23 +34,24 @@ function ListePokemon() {
   return (
     <div className='liste-pokemon'>
 
-      <div className='recherche'>
-        <Recherche/>
-      </div>
+      <Recherche/>
 
+      
+      <div>
 
       {/* Affichage des cartes de Pokémon */}
       <div className="cartes-pokemon">
         {pokemonCards}
-
-        {/* Boutons de pagination */}
-        <div className="pagination">
-
-          {page > 1 && <button onClick={goToPrevPage}>Précédent</button>}
-
-          <button onClick={goToNextPage}>Suivant</button>
-        </div>
+        
       </div>
+      <div className="pagination">
+        {page > 1 && <button onClick={goToPrevPage}>Précédent</button>}
+        {page < 105 && <button onClick={goToNextPage}>Suivant</button>}
+        
+      </div>
+      </div>
+      {/* Boutons de pagination */}
+      
     </div>
   );
 }

@@ -23,7 +23,7 @@ $type-colors: (
 // Mixin pour appliquer la couleur de fond basée sur le type
 @mixin apply-type-color($type) {
   background-color: map-get($type-colors, $type);
-  color: #fff; // ajustez la couleur du texte selon votre besoin
+  color: #fff;
 }
 
 // Classe de base pour les badges de type
@@ -32,9 +32,8 @@ $type-colors: (
   border-radius: 4px;
   text-align: center;
   font-weight: bold;
-  display: inline-block; // ou autre selon votre mise en page
-  margin-right: 4px; // Espacement entre les badges si nécessaire
-  // Vous pouvez ajouter plus de styles ici selon les besoins
+  display: inline-block;
+  margin-right: 4px;
 }
 
 // Générer des classes CSS pour chaque type de Pokémon

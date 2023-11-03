@@ -1,3 +1,10 @@
+body{
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+
+}
+
 .App {
   text-align: center;
 }
@@ -9,21 +16,24 @@ header {
   padding: 20px 0; /* Vertical padding */
   position: relative;
   bottom: 0;
-  width: 100%;
+  width: fill;
   left: 0;
   position: top;
 }
 
+.header-items{
+  display: flex;
+  justify-content : space-evenly;
+}
+
 /* Footer Styles */
 footer {
-  background-color: #bc4c49;
-  color: #ffffff; /* White text color */
-  padding: 20px 0; /* Vertical padding */
+  color: #000000; /* White text color */
+  padding: 30px 0; /* Vertical padding */
   position: relative;
   bottom: 0;
   width: 100%;
   left: 0;
-  position: fixed;
 }
 
 .liste-pokemon{
@@ -62,5 +72,59 @@ footer {
 }
 
 .isInPokedex{
-  background-color: goldenrod;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border: 8px solid goldenrod;
+}
+
+.delete-pokedex{
+  margin: 10px;
+}
+
+.recherche{
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+
+  align-items: center;
+  margin: 15px auto;
+  width: 30%;
+  max-width: 1200px;
+}
+
+.recherche-liste{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 0px auto;
+  width: 100%;
+  max-width: 1200px;
+}
+.image-recherche{
+  scale: 50%;
+}
+.MuiButtonBase-root{
+  max-height: 45px;
+}
+.MuiListSubheader-root{
+  max-height: 50%;
+}
+
+.cartes-pokemon-content{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 0px auto;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.types-container{
+  margin : 5px;
+}
+.pagination{
+  margin : 5px;
 }

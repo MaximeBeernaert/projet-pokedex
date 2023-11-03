@@ -1,6 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
 
-import Accueil from './components/Accueil'
 import ListePokemon from './components/Liste/ListePokemon';
 import Pokedex from './components/Pokedex/Pokedex';
 
@@ -13,10 +12,8 @@ function App() {
   return (
     <div className="App">
       <Header/>
-      
       <Routes>
-          <Route path="/" element={<Accueil />} />
-          <Route path="/listes" element={<ListePokemon />} />
+          <Route path="/" element={<ListePokemon />} />
           <Route path="/pokedex" element={<Pokedex/>} />
       </Routes>
       
